@@ -7,8 +7,8 @@ public class SparqlClientExample {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        SparqlClient sparqlClient = new SparqlClient("192.168.250.91:8080/sparqluedo");
+    public void main(String args[]) {
+        SparqlClient sparqlClient = new SparqlClient("localhost:8080/sparql.tpl");
 
         String query = "ASK WHERE { ?s ?p ?o }";
         boolean serverIsUp = sparqlClient.ask(query);
@@ -17,34 +17,47 @@ public class SparqlClientExample {
 
             nbPersonnesParPiece(sparqlClient);
 
-            System.out.println("ajout d'une personne dans le bureau:");
-            query = "PREFIX : <http://www.lamaisondumeurtre.fr#>\n"
-                    + "PREFIX instances: <http://www.lamaisondumeurtre.fr/instances#>\n"
-                    + "INSERT DATA\n"
-                    + "{\n"
-                    + "  instances:Bob :personneDansPiece instances:Bureau.\n"
-                    + "}\n";
-            sparqlClient.update(query);
+//            System.out.println("ajout d'une personne dans le bureau:");
+//            query = "PREFIX : <http://www.lamaisondumeurtre.fr#>\n"
+//                    + "PREFIX instances: <http://www.lamaisondumeurtre.fr/instances#>\n"
+//                    + "INSERT DATA\n"
+//                    + "{\n"
+//                    + "  instances:Bob :personneDansPiece instances:Bureau.\n"
+//                    + "}\n";
+//            sparqlClient.update(query);
 
-            nbPersonnesParPiece(sparqlClient);
-
-            System.out.println("suppression d'une personne du bureau:");
-            query = "PREFIX : <http://www.lamaisondumeurtre.fr#>\n"
-                    + "PREFIX instances: <http://www.lamaisondumeurtre.fr/instances#>\n"
-                    + "DELETE DATA\n"
-                    + "{\n"
-                    + "  instances:Bob :personneDansPiece instances:Bureau.\n"
-                    + "}\n";
-            sparqlClient.update(query);
-            
-            nbPersonnesParPiece(sparqlClient);
-            
+//            System.out.println("suppression d'une personne du bureau:");
+//            query = "PREFIX : <http://www.lamaisondumeurtre.fr#>\n"
+//                    + "PREFIX instances: <http://www.lamaisondumeurtre.fr/instances#>\n"
+//                    + "DELETE DATA\n"
+//                    + "{\n"
+//                    + "  instances:Bob :personneDansPiece instances:Bureau.\n"
+//                    + "}\n";
+//            sparqlClient.update(query);
+        
         } else {
             System.out.println("service is DOWN");
         }
     }
     
-    private static void nbPersonnesParPiece(SparqlClient sparqlClient) {
+    
+    public void callSparql(String terms){
+    	SparqlClient sparqlClient = new SparqlClient("localhost:8080/sparql.tpl");
+
+        String query = "ASK WHERE { ?s ?p ?o }";
+        boolean serverIsUp = sparqlClient.ask(query);
+        if (serverIsUp) {
+            System.out.println("server is UP");
+
+            nbPersonnesParPiece(sparqlClient);
+        
+        } else {
+            System.out.println("service is DOWN");
+        }
+    }
+    
+    
+    public void nbPersonnesParPiece(SparqlClient sparqlClient) {
         String query = "PREFIX : <http://www.lamaisondumeurtre.fr#>\n"
                     + "SELECT ?piece (COUNT(?personne) AS ?nbPers) WHERE\n"
                     + "{\n"

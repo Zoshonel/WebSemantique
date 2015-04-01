@@ -19,7 +19,7 @@ public class evaluateurReqs {
 			String ligne;
 			int i = 1;
 			while ((ligne = config.readLine()) != null) {
-				evaluateurReq e = new evaluateurReq(ligne, "doc/qrels/qrelQ"
+				evaluateurReq e = new evaluateurReq(ligne, "resources/qrels/qrelQ"
 						+ i + ".txt", i++);
 				evaluations.add(e.evaluer());
 			}

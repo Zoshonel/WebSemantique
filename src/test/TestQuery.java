@@ -1,18 +1,17 @@
 package test;
 
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.*;
 import java.util.*;
 import java.sql.SQLException;
 
 import javax.xml.xpath.*;
 import javax.xml.parsers.*;
+
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
 import search.TermQuery;
+import sparqlclient.SparqlClientExample;
 import store.BaseReader;
 
 /**
@@ -33,6 +32,15 @@ public class TestQuery {
 			// System.out.println(monfichier);
 
 			String q = new String(requete);
+			
+			
+			System.out.println(" aaa : " + q);
+			
+			// Ameliorer la requette grace à SPARQL
+			SparqlClientExample sce = new SparqlClientExample();
+			sce.callSparql(q);
+			
+			
 			TermQuery query = new TermQuery(q);
 
 			BufferedReader config = new BufferedReader(new FileReader(
