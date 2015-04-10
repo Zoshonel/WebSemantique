@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import javax.xml.xpath.*;
 import javax.xml.parsers.*;
 
+import jena.qtest;
+
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
@@ -38,7 +40,48 @@ public class TestQuery {
 			
 			// Ameliorer la requette grace à SPARQL
 			SparqlClientExample sce = new SparqlClientExample();
-			sce.callSparql(q);
+			
+			
+//			Map<String,String> props = sce.callSparqlProps(q);
+//			for (String mot : q.split(",")){
+//				boolean isChecked = false ;
+//				if (mot.matches("^[A-Z]")){
+//					isChecked = true ;
+//					// C'est une ressource
+//				}else{
+//					for (String s : props.keySet()){
+//						if (props.get(s).contains(mot)){
+//							System.err.println("  ::: " + props.get(s));
+//							// c'est une propertie
+//							isChecked = true;
+//						}
+//					}
+//					if (!isChecked){
+//						// c'est un mot classique
+//					}
+//				}
+//			}
+//			// Pour chaque Property trouvée, 
+//			// on l'associe aux mots et ressources possibles
+			
+			ArrayList<String> synonymes = sce.callSparql(q);
+			String qtemp = "" ;
+			if (synonymes.size()>0){
+//				qtemp = "( " ;
+				for (String s : synonymes){
+					if ( (q != null) && (! q.equals("")) ){
+//						qtemp = qtemp + " " + s  ;
+						if (qtemp.equals(""))
+							qtemp = qtemp + " " + s  ;
+						else
+							qtemp = qtemp + ", " + s  ;
+					}
+				}
+//				qtemp = qtemp + " )";
+			}
+			q = qtemp + ", " + q ;
+			
+			String qAmeliored = "" ;
 			
 			
 			TermQuery query = new TermQuery(q);

@@ -46,6 +46,13 @@ final public class TermQuery {
 		while (termIterator.hasNext()) {
 			String term = termIterator.next();
 			ArrayList<String> subTermList = new ArrayList<String>();
+			
+			term = term.replace("(", "");
+			term = term.replace(")", "");
+			term = term.replaceAll("  ", "");
+			
+//			System.err.println(term);
+			
 			if (term.contains(" ")) {
 				subTermstableOk = new ArrayList<String>();
 				subtermstable = term.split(" ");
@@ -63,7 +70,7 @@ final public class TermQuery {
 			}
 			terms.add(subTermList);
 		}
-
+		System.out.println("termes : " + terms);
 		System.out.println("Fin de la requete");
 	}
 
